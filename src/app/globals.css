@@ -1,0 +1,34 @@
+@import 'tailwindcss';
+
+@theme {
+  /* WZPDCL brand colors */
+  --color-wzpdcl-blue: #003d7a;
+  --color-wzpdcl-blue-light: #1e88e5;
+  --color-wzpdcl-green: #2e7d32;
+  --color-wzpdcl-red: #c62828;
+  --color-wzpdcl-slate: #475569;
+  --color-wzpdcl-bg: #f8fafc;
+  --color-wzpdcl-border: #e2e8f0;
+}
+
+:root {
+  --background: var(--color-wzpdcl-bg);
+  --foreground: #0f172a;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+}
