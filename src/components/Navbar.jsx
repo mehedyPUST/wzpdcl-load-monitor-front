@@ -13,6 +13,7 @@ import {
     History,
     Zap,
     Settings as SettingsIcon,
+    Home,
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -22,12 +23,13 @@ export default function Navbar() {
 
     const handleLogout = async () => {
         await logout();
-        router.push('/login');
+        router.push('/');
     };
 
     const navLinks = {
         admin: [
-            { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+            { href: '/', label: 'Home', icon: Home },
+            { href: '/admin/dashboard', label: 'Monitor', icon: LayoutDashboard },
             { href: '/admin/circles', label: 'Circles', icon: Building2 },
             { href: '/admin/substations', label: 'Substations', icon: Zap },
             { href: '/admin/users', label: 'Users', icon: Users },
@@ -36,10 +38,12 @@ export default function Navbar() {
             { href: '/reports', label: 'Reports', icon: FileText },
         ],
         operator: [
+            { href: '/', label: 'Home', icon: Home },
             { href: '/input', label: 'Hourly Input', icon: Zap },
             { href: '/history', label: 'History', icon: History },
         ],
         viewer: [
+            { href: '/', label: 'Home', icon: Home },
             { href: '/viewer/dashboard', label: 'Dashboard', icon: LayoutDashboard },
             { href: '/reports', label: 'Reports', icon: FileText },
         ],
@@ -47,28 +51,43 @@ export default function Navbar() {
 
     const links = user ? navLinks[user.role] || [] : [];
 
+    const roleLabel =
+        user?.role === 'operator'
+            ? 'SBA'
+            : user?.role === 'admin'
+              ? 'Admin'
+              : user?.role === 'viewer'
+                ? 'Viewer'
+                : '';
+
     return (
         <header className="no-print bg-wzpdcl-blue text-white shadow-md sticky top-0 z-50">
             <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2.5">
-                {/* Brand */}
                 <Link href="/" className="flex items-center gap-3 font-bold text-lg">
                     <div className="bg-white rounded-md p-1 flex items-center justify-center w-11 h-11">
-                        <img src={LOGO_URL} alt="WZPDCL" className="w-9 h-9 object-contain" />
+                        <img
+                            src={LOGO_URL}
+                            alt="WZPDCL"
+                            className="w-9 h-9 object-contain"
+                        />
                     </div>
                     <span className="hidden sm:inline">{APP_NAME}</span>
                 </Link>
 
-                {/* Nav */}
                 <nav className="hidden md:flex items-center gap-1">
                     {links.map((l) => {
                         const Icon = l.icon;
-                        const active = pathname.startsWith(l.href);
+                        const active =
+                            l.href === '/'
+                                ? pathname === '/'
+                                : pathname.startsWith(l.href);
                         return (
                             <Link
                                 key={l.href}
                                 href={l.href}
-                                className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm transition ${active ? 'bg-white/20' : 'hover:bg-white/10'
-                                    }`}
+                                className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm transition ${
+                                    active ? 'bg-white/20' : 'hover:bg-white/10'
+                                }`}
                             >
                                 <Icon className="w-4 h-4" />
                                 {l.label}
@@ -77,14 +96,19 @@ export default function Navbar() {
                     })}
                 </nav>
 
-                {/* Right */}
                 <div className="flex items-center gap-3">
                     {user ? (
                         <>
                             <span className="hidden sm:block text-sm opacity-90">
                                 {user.name}
+                                {roleLabel && (
+                                    <span className="opacity-70"> · {roleLabel}</span>
+                                )}
                                 {user.role === 'operator' && user.substationName && (
-                                    <span className="opacity-75"> · {user.substationName}</span>
+                                    <span className="opacity-75">
+                                        {' '}
+                                        · {user.substationName}
+                                    </span>
                                 )}
                             </span>
                             <button
