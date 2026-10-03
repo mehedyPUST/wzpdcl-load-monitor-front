@@ -37,6 +37,7 @@ export default function Navbar() {
             { href: '/', label: 'Home', icon: Home },
             { href: '/input', label: 'Hourly Input', icon: Zap },
             { href: '/history', label: 'History', icon: History },
+            { href: '/reports', label: 'Reports', icon: FileText },
         ],
         viewer: [
             { href: '/', label: 'Home', icon: Home },
