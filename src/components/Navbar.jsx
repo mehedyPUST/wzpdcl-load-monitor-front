@@ -8,12 +8,10 @@ import {
     LogOut,
     LayoutDashboard,
     FileText,
-    Users,
-    Building2,
     History,
     Zap,
-    Settings as SettingsIcon,
     Home,
+    Shield,
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -31,10 +29,7 @@ export default function Navbar() {
             { href: '/', label: 'Home', icon: Home },
             { href: '/admin/dashboard', label: 'Monitor', icon: LayoutDashboard },
             { href: '/input', label: 'Input', icon: Zap },
-            { href: '/admin/circles', label: 'Circles', icon: Building2 },
-            { href: '/admin/substations', label: 'Substations', icon: Zap },
-            { href: '/admin/users', label: 'Users', icon: Users },
-            { href: '/admin/settings', label: 'Settings', icon: SettingsIcon },
+            { href: '/admin/manage', label: 'Admin actions', icon: Shield },
             { href: '/history', label: 'History', icon: History },
             { href: '/reports', label: 'Reports', icon: FileText },
         ],
@@ -61,6 +56,20 @@ export default function Navbar() {
                 ? 'Viewer'
                 : '';
 
+    const isActive = (href) => {
+        if (href === '/') return pathname === '/';
+        if (href === '/admin/manage') {
+            return (
+                pathname.startsWith('/admin/manage') ||
+                pathname.startsWith('/admin/circles') ||
+                pathname.startsWith('/admin/substations') ||
+                pathname.startsWith('/admin/users') ||
+                pathname.startsWith('/admin/settings')
+            );
+        }
+        return pathname.startsWith(href);
+    };
+
     return (
         <header className="no-print bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white shadow-lg sticky top-0 z-50 border-b border-white/5">
             <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2.5">
@@ -78,10 +87,7 @@ export default function Navbar() {
                 <nav className="hidden md:flex items-center gap-1">
                     {links.map((l) => {
                         const Icon = l.icon;
-                        const active =
-                            l.href === '/'
-                                ? pathname === '/'
-                                : pathname.startsWith(l.href);
+                        const active = isActive(l.href);
                         return (
                             <Link
                                 key={l.href}

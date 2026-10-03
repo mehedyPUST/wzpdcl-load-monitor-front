@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import Protected from '@/components/Protected';
+import AdminSubNav from '@/components/AdminSubNav';
 import toast from 'react-hot-toast';
 import { Plus, Trash2, Pencil, X, Check } from 'lucide-react';
 
@@ -114,6 +115,8 @@ function Circles() {
 
     return (
         <div className="max-w-5xl mx-auto px-4 py-6">
+            
+            <AdminSubNav />
             <h1 className="text-2xl font-bold text-slate-800 mb-4">Circles</h1>
 
             <div className="bg-white rounded-xl border border-slate-200 p-4 mb-5">

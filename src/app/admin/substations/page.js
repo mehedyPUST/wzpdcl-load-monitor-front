@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import Protected from '@/components/Protected';
+import AdminSubNav from '@/components/AdminSubNav';
 import toast from 'react-hot-toast';
 import { Plus, Trash2 } from 'lucide-react';
 
@@ -52,6 +53,8 @@ function Subs() {
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-6">
+            
+            <AdminSubNav />
             <h1 className="text-2xl font-bold text-wzpdcl-blue mb-4">Substations</h1>
 
             <div className="bg-white rounded-xl border p-4 mb-5 flex flex-wrap gap-3 items-end">

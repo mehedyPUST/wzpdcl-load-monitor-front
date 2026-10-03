@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import Protected from '@/components/Protected';
+import AdminSubNav from '@/components/AdminSubNav';
 import toast from 'react-hot-toast';
 import { Save, Plus, X, Clock } from 'lucide-react';
 
@@ -81,6 +82,8 @@ function Settings() {
 
     return (
         <div className="max-w-4xl mx-auto px-4 py-6">
+            
+            <AdminSubNav />
             <h1 className="text-2xl font-bold text-wzpdcl-blue mb-2 flex items-center gap-2">
                 <Clock className="w-6 h-6" /> Admin Settings
             </h1>
