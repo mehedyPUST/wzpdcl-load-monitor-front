@@ -22,9 +22,12 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // Redirect if already logged in → home overview
+    // Redirect if already logged in (SBA → input)
     useEffect(() => {
-        if (user) router.replace('/');
+        if (!user) return;
+        if (user.role === 'operator') router.replace('/input');
+        else if (user.role === 'admin') router.replace('/admin/dashboard');
+        else router.replace('/');
     }, [user, router]);
 
     // Load circles for SBA
@@ -48,9 +51,11 @@ export default function LoginPage() {
             .catch(() => toast.error('Failed to load substations'));
     }, [role, circleId]);
 
-    const afterLogin = () => {
+    const afterLogin = (u) => {
         toast.success('Logged in');
-        router.replace('/');
+        if (u?.role === 'operator') router.replace('/input');
+        else if (u?.role === 'admin') router.replace('/admin/dashboard');
+        else router.replace('/');
     };
 
     const handleSubmit = async (e) => {
@@ -65,15 +70,15 @@ export default function LoginPage() {
                     return;
                 }
                 const u = await loginOperator({ circleId, substationId, password });
-                afterLogin();
+                afterLogin(u);
             } else if (role === 'admin') {
                 if (!email.trim()) return toast.error('Email required');
                 const u = await loginAdmin({ email: email.trim(), password });
-                afterLogin();
+                afterLogin(u);
             } else {
                 if (!email.trim()) return toast.error('Email required');
                 const u = await loginViewer({ email: email.trim(), password });
-                afterLogin();
+                afterLogin(u);
             }
         } catch (err) {
             toast.error(err.message || 'Login failed');
