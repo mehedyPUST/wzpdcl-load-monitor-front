@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
 import api from '@/lib/api';
 import { LOGO_URL, APP_NAME, COMPANY_NAME } from '@/lib/brand';
@@ -28,15 +27,8 @@ function fmt(v) {
 
 export default function Home() {
     const { user, loading } = useAuth();
-    const router = useRouter();
 
-    useEffect(() => {
-        if (!loading && user?.role === 'operator') {
-            router.replace('/input');
-        }
-    }, [user, loading, router]);
-
-    if (loading || user?.role === 'operator') {
+    if (loading) {
         return (
             <div className="flex items-center justify-center py-24 text-slate-500">
                 Loading…
@@ -44,6 +36,7 @@ export default function Home() {
         );
     }
 
+    // SBA can open Home freely; login still lands on /input
     if (user) return <LoggedInHome user={user} />;
     return <VisitorLanding />;
 }
