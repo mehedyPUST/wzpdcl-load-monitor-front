@@ -285,7 +285,7 @@ function Dash() {
             )}
 
             {/* KPI cards */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-5">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-5">
                 <Kpi
                     title="Submitted"
                     value={`${totals.submitted}/${totals.totalSubstations}`}
@@ -315,6 +315,12 @@ function Dash() {
                     value={fmt(totals.loadshed)}
                     sub="MW total"
                     color="bg-red-600"
+                />
+                <Kpi
+                    title="Demand"
+                    value={fmt((Number(totals.actualLoad)||0)+(Number(totals.loadshed)||0))}
+                    sub="Actual + LS"
+                    color="bg-violet-600"
                 />
                 <Kpi
                     title="PBS Load"
@@ -431,6 +437,7 @@ function Dash() {
                                 <th className="text-right px-3 py-2.5">Actual (MW)</th>
                                 <th className="text-right px-3 py-2.5">Allotment (MW)</th>
                                 <th className="text-right px-3 py-2.5">Loadshed (MW)</th>
+                                <th className="text-right px-3 py-2.5">Demand (MW)</th>
                                 <th className="text-right px-3 py-2.5">PBS (MW)</th>
                                 <th className="text-left px-3 py-2.5">Note</th>
                             </tr>
@@ -483,6 +490,9 @@ function Dash() {
                                     <td className="px-3 py-2 text-right tabular-nums">
                                         {fmt(r.loadshed)}
                                     </td>
+                                    <td className="px-3 py-2 text-right tabular-nums font-medium">
+                                        {fmt((Number(r.actualLoad)||0)+(Number(r.loadshed)||0))}
+                                    </td>
                                     <td className="px-3 py-2 text-right tabular-nums">
                                         {fmt(r.pbsLoad)}
                                     </td>
@@ -494,7 +504,7 @@ function Dash() {
                             {flatRows.length === 0 && (
                                 <tr>
                                     <td
-                                        colSpan={9}
+                                        colSpan={10}
                                         className="text-center py-8 text-slate-500"
                                     >
                                         No substations match this filter
@@ -520,6 +530,9 @@ function Dash() {
                                     </td>
                                     <td className="px-3 py-2.5 text-right tabular-nums">
                                         {fmt(totals.loadshed)}
+                                    </td>
+                                    <td className="px-3 py-2.5 text-right tabular-nums">
+                                        {fmt((Number(totals.actualLoad)||0)+(Number(totals.loadshed)||0))}
                                     </td>
                                     <td className="px-3 py-2.5 text-right tabular-nums">
                                         {fmt(totals.pbsLoad)}

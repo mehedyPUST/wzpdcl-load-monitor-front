@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
+import Spinner from '@/components/ui/Spinner';
 
 export default function Protected({ roles = [], children }) {
     const { user, loading } = useAuth();
@@ -10,16 +11,22 @@ export default function Protected({ roles = [], children }) {
 
     useEffect(() => {
         if (loading) return;
-        if (!user) { router.replace('/login'); return; }
+        if (!user) {
+            router.replace('/login');
+            return;
+        }
         if (roles.length && !roles.includes(user.role)) {
-            if (user.role === 'admin') router.replace('/admin/dashboard');
-            else if (user.role === 'viewer') router.replace('/viewer/dashboard');
-            else router.replace('/input');
+            router.replace('/');
         }
     }, [user, loading, roles, router]);
 
     if (loading || !user) {
-        return <div className="p-10 text-center text-slate-500">Loading…</div>;
+        return (
+            <div className="flex flex-col items-center justify-center gap-3 p-16 text-slate-500">
+                <Spinner className="w-8 h-8" />
+                <span className="text-sm">Loading…</span>
+            </div>
+        );
     }
     if (roles.length && !roles.includes(user.role)) return null;
     return children;

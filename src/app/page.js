@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { useAuth } from '@/lib/auth-context';
 import api from '@/lib/api';
 import { LOGO_URL, APP_NAME, COMPANY_NAME } from '@/lib/brand';
+import DaySummaryDownload from '@/components/DaySummaryDownload';
+import Spinner from '@/components/ui/Spinner';
+import { SkeletonCard, SkeletonTable } from '@/components/ui/Skeleton';
 import {
     Activity,
     AlertTriangle,
@@ -200,17 +203,20 @@ function LoggedInHome({ user }) {
                             : ''}
                     </p>
                 </div>
-                <Link
-                    href={dashHref}
-                    className="inline-flex items-center gap-2 bg-blue-800 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-900"
-                >
-                    <LayoutDashboard className="w-4 h-4" />
-                    {user.role === 'admin'
-                        ? 'Open monitor'
-                        : user.role === 'operator'
-                          ? 'Hourly input'
-                          : 'Dashboard'}
-                </Link>
+                <div className="flex flex-wrap items-center gap-2">
+                    <DaySummaryDownload />
+                    <Link
+                        href={dashHref}
+                        className="inline-flex items-center gap-2 bg-blue-800 text-white text-sm px-4 py-2 rounded-xl hover:bg-blue-900 shadow-sm"
+                    >
+                        <LayoutDashboard className="w-4 h-4" />
+                        {user.role === 'admin'
+                            ? 'Open monitor'
+                            : user.role === 'operator'
+                              ? 'Hourly input'
+                              : 'Dashboard'}
+                    </Link>
+                </div>
             </div>
 
             {error && (
@@ -220,7 +226,12 @@ function LoggedInHome({ user }) {
             )}
 
             {loading && !data && (
-                <p className="text-center text-slate-500 py-12">Loading overview…</p>
+                <div className="space-y-4">
+                    <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+                        {Array.from({length:5}).map((_,i)=><SkeletonCard key={i} />)}
+                    </div>
+                    <SkeletonTable rows={5} cols={6} />
+                </div>
             )}
 
             {data && (
@@ -245,7 +256,7 @@ function LoggedInHome({ user }) {
                     </div>
 
                     {/* KPI */}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+                    <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
                         <Kpi
                             title="Total Actual Load"
                             value={`${fmt(totals.actualLoad)} MW`}
@@ -263,6 +274,13 @@ function LoggedInHome({ user }) {
                             value={`${fmt(totals.loadshed)} MW`}
                             color="bg-red-600"
                             icon={<AlertTriangle className="w-5 h-5" />}
+                        />
+                        <Kpi
+                            title="Total Demand"
+                            value={`${fmt((Number(totals.actualLoad)||0)+(Number(totals.loadshed)||0))} MW`}
+                            sub="Actual + Loadshed"
+                            color="bg-violet-600"
+                            icon={<Activity className="w-5 h-5" />}
                         />
                         <Kpi
                             title="Input progress"
@@ -310,6 +328,7 @@ function LoggedInHome({ user }) {
                                         <th className="text-right px-3 py-2">Actual (MW)</th>
                                         <th className="text-right px-3 py-2">Allotment (MW)</th>
                                         <th className="text-right px-3 py-2">Loadshed (MW)</th>
+                                        <th className="text-right px-3 py-2">Demand (MW)</th>
                                         <th className="text-right px-3 py-2">PBS (MW)</th>
                                     </tr>
                                 </thead>
@@ -340,6 +359,9 @@ function LoggedInHome({ user }) {
                                             <td className="px-3 py-2 text-right tabular-nums">
                                                 {fmt(c.totals?.loadshed)}
                                             </td>
+                                            <td className="px-3 py-2 text-right tabular-nums font-medium">
+                                                {fmt((Number(c.totals?.actualLoad)||0)+(Number(c.totals?.loadshed)||0))}
+                                            </td>
                                             <td className="px-3 py-2 text-right tabular-nums">
                                                 {fmt(c.totals?.pbsLoad)}
                                             </td>
@@ -348,7 +370,7 @@ function LoggedInHome({ user }) {
                                     {(data.circles || []).length === 0 && (
                                         <tr>
                                             <td
-                                                colSpan={7}
+                                                colSpan={8}
                                                 className="text-center py-8 text-slate-500"
                                             >
                                                 No circles configured yet
@@ -372,6 +394,9 @@ function LoggedInHome({ user }) {
                                             </td>
                                             <td className="px-3 py-2 text-right tabular-nums">
                                                 {fmt(totals.loadshed)}
+                                            </td>
+                                            <td className="px-3 py-2 text-right tabular-nums">
+                                                {fmt((Number(totals.actualLoad)||0)+(Number(totals.loadshed)||0))}
                                             </td>
                                             <td className="px-3 py-2 text-right tabular-nums">
                                                 {fmt(totals.pbsLoad)}

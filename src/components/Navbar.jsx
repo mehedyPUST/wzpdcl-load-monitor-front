@@ -62,7 +62,7 @@ export default function Navbar() {
                 : '';
 
     return (
-        <header className="no-print bg-wzpdcl-blue text-white shadow-md sticky top-0 z-50">
+        <header className="no-print bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white shadow-lg sticky top-0 z-50 border-b border-white/5">
             <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-2.5">
                 <Link href="/" className="flex items-center gap-3 font-bold text-lg">
                     <div className="bg-white rounded-md p-1 flex items-center justify-center w-11 h-11">
