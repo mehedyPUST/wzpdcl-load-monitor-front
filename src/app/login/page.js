@@ -68,7 +68,7 @@ export default function OperatorLogin() {
                     <div className="w-16 h-16 bg-white rounded-xl border border-wzpdcl-border flex items-center justify-center mb-3 p-1">
                         <img src={LOGO_URL} alt="WZPDCL" className="w-14 h-14 object-contain" />
                     </div>
-                    <h1 className="text-2xl font-bold text-wzpdcl-blue">Operator Login</h1>
+                    <h1 className="text-2xl font-bold text-wzpdcl-blue">SBA Login</h1>
                     <p className="text-sm text-slate-500 mt-1">Select your circle and grid substation</p>
                 </div>
 

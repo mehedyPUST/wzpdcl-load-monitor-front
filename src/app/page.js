@@ -19,7 +19,7 @@ export default function Home() {
           href="/login"
           className="inline-flex items-center gap-2 bg-wzpdcl-blue text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-900 transition"
         >
-          <LogIn className="w-5 h-5" /> Operator Login
+          <LogIn className="w-5 h-5" /> SBA Login
         </Link>
         <Link
           href="/admin/login"
