@@ -32,6 +32,7 @@ export default function Navbar() {
             { href: '/admin/substations', label: 'Substations', icon: Zap },
             { href: '/admin/users', label: 'Users', icon: Users },
             { href: '/admin/settings', label: 'Settings', icon: SettingsIcon },
+            { href: '/history', label: 'History', icon: History },
             { href: '/reports', label: 'Reports', icon: FileText },
         ],
         operator: [
