@@ -77,7 +77,7 @@ export default function AdminLogin() {
                 </form>
 
                 <div className="mt-6 text-center text-sm text-slate-500">
-                    <Link href="/login" className="text-wzpdcl-blue hover:underline">← SBA login</Link>
+                    <Link href="/login" className="text-wzpdcl-blue hover:underline">← Operator login</Link>
                     {' · '}
                     <Link href="/viewer/login" className="text-wzpdcl-blue hover:underline">Viewer login</Link>
                 </div>
