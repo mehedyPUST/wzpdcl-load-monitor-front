@@ -424,6 +424,7 @@ function Dash() {
                     <table className="w-full text-sm">
                         <thead className="bg-slate-100 text-slate-700">
                             <tr>
+                                <th className="text-center px-2 py-2.5 w-10">SN</th>
                                 <th className="text-left px-3 py-2.5">Circle</th>
                                 <th className="text-left px-3 py-2.5">Grid SS</th>
                                 <th className="text-center px-3 py-2.5">Status</th>
@@ -435,13 +436,22 @@ function Dash() {
                             </tr>
                         </thead>
                         <tbody>
-                            {flatRows.map((r) => (
+                            {flatRows.map((r, i) => (
                                 <tr
                                     key={r.substationId}
                                     className={`border-t ${
-                                        r.submitted ? 'bg-white' : 'bg-amber-50/60'
+                                        r.submitted
+                                            ? i % 2 === 1
+                                                ? 'bg-slate-50'
+                                                : 'bg-white'
+                                            : i % 2 === 1
+                                              ? 'bg-amber-50'
+                                              : 'bg-amber-50/50'
                                     }`}
                                 >
+                                    <td className="px-2 py-2 text-center text-slate-500 tabular-nums">
+                                        {i + 1}
+                                    </td>
                                     <td className="px-3 py-2 font-medium text-slate-800">
                                         {r.circleName}
                                     </td>
@@ -484,7 +494,7 @@ function Dash() {
                             {flatRows.length === 0 && (
                                 <tr>
                                     <td
-                                        colSpan={8}
+                                        colSpan={9}
                                         className="text-center py-8 text-slate-500"
                                     >
                                         No substations match this filter
@@ -495,6 +505,7 @@ function Dash() {
                         {flatRows.length > 0 && (
                             <tfoot>
                                 <tr className="bg-slate-50 border-t-2 border-slate-200 font-semibold">
+                                    <td className="px-2 py-2.5" />
                                     <td className="px-3 py-2.5" colSpan={2}>
                                         WZPDCL total
                                     </td>

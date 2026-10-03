@@ -304,6 +304,7 @@ function LoggedInHome({ user }) {
                             <table className="w-full text-sm">
                                 <thead className="bg-slate-100 text-slate-600 text-xs">
                                     <tr>
+                                        <th className="text-center px-2 py-2 w-10">SN</th>
                                         <th className="text-left px-4 py-2">Circle</th>
                                         <th className="text-center px-3 py-2">Progress</th>
                                         <th className="text-right px-3 py-2">Actual (MW)</th>
@@ -313,8 +314,9 @@ function LoggedInHome({ user }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {(data.circles || []).map((c) => (
-                                        <tr key={c.circleId} className="border-t">
+                                    {(data.circles || []).map((c, i) => (
+                                        <tr key={c.circleId} className={`border-t ${i % 2 === 1 ? 'bg-slate-50' : 'bg-white'}`}>
+                                            <td className="px-2 py-2 text-center text-slate-500 tabular-nums">{i + 1}</td>
                                             <td className="px-4 py-2 font-medium">
                                                 {c.circleName}
                                             </td>
@@ -346,7 +348,7 @@ function LoggedInHome({ user }) {
                                     {(data.circles || []).length === 0 && (
                                         <tr>
                                             <td
-                                                colSpan={6}
+                                                colSpan={7}
                                                 className="text-center py-8 text-slate-500"
                                             >
                                                 No circles configured yet
@@ -357,6 +359,7 @@ function LoggedInHome({ user }) {
                                 {(data.circles || []).length > 0 && (
                                     <tfoot>
                                         <tr className="bg-slate-50 border-t-2 font-semibold">
+                                            <td className="px-2 py-2" />
                                             <td className="px-4 py-2">WZPDCL total</td>
                                             <td className="px-3 py-2 text-center text-xs font-normal">
                                                 {totals.submitted}/{totals.totalSubstations}

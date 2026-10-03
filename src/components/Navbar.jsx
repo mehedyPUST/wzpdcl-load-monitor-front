@@ -30,6 +30,7 @@ export default function Navbar() {
         admin: [
             { href: '/', label: 'Home', icon: Home },
             { href: '/admin/dashboard', label: 'Monitor', icon: LayoutDashboard },
+            { href: '/input', label: 'Input', icon: Zap },
             { href: '/admin/circles', label: 'Circles', icon: Building2 },
             { href: '/admin/substations', label: 'Substations', icon: Zap },
             { href: '/admin/users', label: 'Users', icon: Users },
