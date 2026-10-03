@@ -83,7 +83,12 @@ function Dash() {
                 return next;
             });
         } catch (e) {
-            setError(e.message || 'Failed to load dashboard');
+            const msg = e.message || 'Failed to load dashboard';
+            if (e.status === 401 || /not authenticated/i.test(msg)) {
+                setError('Session expired — please log in again as admin.');
+            } else {
+                setError(msg);
+            }
         } finally {
             setLoading(false);
         }
